@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fishery News Chatbot - Aquaculture Support</title>
+    <meta name="description" content="Smart chatbot for aquaculture support - fish farming, feed, disease, water quality guidance">
+    <meta name="author" content="Fishery.News Team">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.462.0/lucide.min.css">
+</head>
+<body>
+    <!-- Hidden Google Translate Element -->
+    <div id="google_translate_element" style="display: none;"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/" class="brand-link" onclick="showPage('chat')">
+                    <i data-lucide="fish" class="brand-icon"></i>
+                    <span class="brand-text">Fishery News Chatbot</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link active" data-page="chat" data-translate="chat" onclick="showPage('chat')">Chat</a>
+                <a href="#" class="nav-link" data-page="history" data-translate="history" onclick="showPage('history')">History</a>
+                <a href="#" class="nav-link" data-page="settings" data-translate="settings" onclick="showPage('settings')">Settings</a>
+                
+                <!-- Language Selector -->
+                <div class="language-selector">
+                    <select id="languageSelect" class="language-select">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी (Hindi)</option>
+                        <option value="te">తెలుగు (Telugu)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <i data-lucide="menu" id="menuIcon"></i>
+                <i data-lucide="x" id="closeIcon" style="display: none;"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Chat Page -->
+        <div id="chatPage" class="page active">
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <input 
+                            type="text" 
+                            id="messageInput" 
+                            class="chat-input" 
+                            data-translate="placeholder"
+                            placeholder="Ask about fish farming, feed, diseases, water quality..."
+                            disabled
+                        >
+                        <button id="sendButton" class="send-button" disabled>
+                            <i data-lucide="send"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="historyPage" class="page">
+            <div class="page-container">
+                <div class="page-header">
+                    <h1 data-translate="chat-history">Chat History</h1>
+                    <button id="clearHistoryBtn" class="btn btn-danger" style="display: none;">
+                        <i data-lucide="trash-2"></i>
+                        <span data-translate="clear-all">Clear All</span>
+                    </button>
+                </div>
+                
+                <div id="historyContent" class="history-content">
+                    <div class="empty-state">
+                        <p data-translate="no-history">No chat history yet. Start a conversation to see your messages here!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div id="settingsPage" class="page">
+            <div class="page-container">
+                <div class="page-header">
+                    <i data-lucide="settings" class="page-icon"></i>
+                    <h1 data-translate="settings">Settings</h1>
+                </div>
+                
+                <div class="settings-content">
+                    <!-- Theme Toggle -->
+                    <div class="setting-card">
+                        <h2>Appearance</h2>
+                        <div class="setting-item">
+                            <span class="setting-label" id="themeLabel" data-translate="light-mode">Light Mode</span>
+                            <div class="theme-toggle" id="themeToggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Translation API Key -->
+                    <div class="setting-card">
+                        <h2>Translation Settings</h2>
+                        <div class="setting-item">
+                            <label for="translateApiKey">Google Translate API Key (Optional)</label>
+                            <input type="password" id="translateApiKey" class="setting-input" placeholder="Enter API key for better translations">
+                        </div>
+                        <p class="setting-description">Add your Google Translate API key for more accurate translations. Basic translations work without an API key.</p>
+                    </div>
+
+                    <!-- Reset Options -->
+                    <div class="setting-card">
+                        <h2>Reset Options</h2>
+                        <button id="resetChatBtn" class="btn btn-danger" data-translate="reset-chatbot">Reset Chatbot</button>
+                        <p class="setting-description">This will clear all chat history and reset the conversation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-social">
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                    <i data-lucide="linkedin"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="YouTube">
+                    <i data-lucide="youtube"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Facebook">
+                    <i data-lucide="facebook"></i>
+                </a>
+            </div>
+            
+            <div class="footer-text">
+                <p>Built by Fishery.News Team</p>
+                <p>&copy; 2024 Fishery.News. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/translation.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/history.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
