@@ -1,73 +1,78 @@
-# Welcome to your Lovable project
+# Fishery News Chatbot 🐟💬
 
-## Project info
+**A smart and helpful chatbot for all your aquaculture needs!**
 
-**URL**: https://lovable.dev/projects/bc5821b1-d0c7-4878-ae6f-3c36c15b5c14
+Get instant guidance on fish farming, feed management, disease control, water quality, and relevant government schemes. This chatbot is designed to be your go-to assistant for aquaculture support, available in multiple languages.
 
-## How can I edit this code?
+## ✨ Features
 
-There are several ways of editing your application.
+* **Interactive Chat Interface:** Engage in intuitive conversations with the bot.
+* **Aquaculture Expertise:** Access predefined knowledge on:
+    * Fish Feed & Nutrition
+    * Disease Prevention & Management
+    * Water Quality Parameters & Control
+    * Government Schemes & Subsidies
+* **Multi-language Support:** Interact in English, हिंदी (Hindi), and తెలుగు (Telugu).
+* **Chat History:** Your conversations are saved locally for easy reference.
+* **Theme Customization:** Switch between a comfortable Light Mode and a sleek Dark Mode.
+* **Responsive Design:** Access the chatbot seamlessly on desktop, tablet, or mobile devices.
+* **Enhanced Translations:** Option to add your Google Translate API key for potentially more accurate translations.
 
-**Use Lovable**
+## 🛠️ Technologies Used
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/bc5821b1-d0c7-4878-ae6f-3c36c15b5c14) and start prompting.
+This project is built with fundamental web technologies, ensuring broad compatibility and straightforward understanding:
 
-Changes made via Lovable will be committed automatically to this repo.
+* **HTML5:** For the core structure and content.
+* **CSS3:** For styling, layout, and animations.
+    * Custom Properties (Variables) for theming and maintainability.
+    * Flexbox for responsive layouts.
+    * Keyframe animations for smooth UI transitions.
+* **Vanilla JavaScript (ES6+):** For all interactivity and application logic.
+    * Organized into ES6 Classes for modularity (e.g., `ChatManager`, `ThemeManager`).
+    * Direct DOM manipulation for UI updates.
+    * `localStorage` for client-side data persistence.
+* **Lucide Icons:** For crisp and clean iconography.
+* **Google Translate Element:** For basic website translation capabilities, with an option to integrate a full API key.
 
-**Use your preferred IDE**
+## 🚀 How to Run
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+No complex build process is needed! Simply:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1.  Clone or download this repository.
+2.  Navigate to the project directory.
+3.  Open the `index.html` file in your favorite modern web browser.
 
-Follow these steps:
+That's it! The chatbot should be up and running.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 📖 How to Use
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1.  Once the application is open, you'll see the chat interface.
+2.  Type your questions about fish farming, feed, diseases, water quality, or government schemes into the message input field at the bottom.
+3.  Press Enter or click the send button.
+4.  Navigate to the **History** page to review past conversations.
+5.  Visit the **Settings** page to:
+    * Toggle between Light and Dark themes.
+    * Optionally add a Google Translate API key.
+    * Reset the chatbot and clear history.
+6.  Use the language selector in the navigation bar to change the application's language.
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🤝 Contributing
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Contributions are welcome! If you have ideas for improvements or new features:
 
-**Edit a file directly in GitHub**
+1.  Fork the repository.
+2.  Create a new branch for your feature (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Please ensure your code adheres to the existing style and that any new features are well-documented.
 
-**Use GitHub Codespaces**
+## 📄 License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+This project is currently unlicensed. Please specify your license (e.g., MIT License) if you intend to distribute it.
 
-## What technologies are used for this project?
+---
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/bc5821b1-d0c7-4878-ae6f-3c36c15b5c14) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Built with ❤️ by the **Fishery.News Team**
+&copy; 2024 Fishery.News. All rights reserved.
