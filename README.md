@@ -70,7 +70,7 @@ Please ensure your code adheres to the existing style and that any new features 
 
 ## 📄 License
 
-This project is currently unlicensed. Please specify your license (e.g., MIT License) if you intend to distribute it.
+This project is currently unlicensed. 
 
 ---
 
