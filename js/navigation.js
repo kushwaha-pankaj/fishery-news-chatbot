@@ -1,7 +1,16 @@
-// Navigation management
+// js/navigation.js
+
 class NavigationManager {
   constructor() {
-    this.currentPage = 'chat';
+    this.currentPage = 'chat'; // Default page
+    this.appSidebar = document.getElementById('appSidebar');
+    this.mobileToggle = document.getElementById('mobileToggle');
+    this.menuIcon = document.getElementById('menuIcon');
+    this.closeIcon = document.getElementById('closeIcon');
+    // navMenu is still the ID of the <nav> element inside the sidebar
+    // but the toggle action is on appSidebar.
+    this.navMenuContainer = document.getElementById('navMenu'); 
+
     this.bindEvents();
     this.updateActiveLink();
     this.initLanguageSelector();
@@ -13,40 +22,51 @@ class NavigationManager {
       const savedLanguage = localStorage.getItem('language') || 'en';
       languageSelect.value = savedLanguage;
       
-      // Apply translation if not English
+      // Apply translation if not English and translationManager is ready
       if (savedLanguage !== 'en') {
-        window.translationManager?.translatePageContent(savedLanguage);
+        // Defer translation until translationManager is fully loaded if necessary
+        // For now, assuming it's available or will be shortly after DOMContentLoaded
+        if (window.translationManager) {
+            window.translationManager.translatePageContent(savedLanguage);
+        } else {
+            // Optional: Handle case where translationManager might not be ready yet
+            // document.addEventListener('translationManagerReady', () => { // Custom event
+            //     window.translationManager.translatePageContent(savedLanguage);
+            // });
+        }
       }
     }
   }
 
   bindEvents() {
-    // Mobile toggle
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navMenu = document.getElementById('navMenu');
-    const menuIcon = document.getElementById('menuIcon');
-    const closeIcon = document.getElementById('closeIcon');
-
-    if (mobileToggle && navMenu) {
-      mobileToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        const isActive = navMenu.classList.contains('active');
+    // Mobile toggle for the new sidebar
+    if (this.mobileToggle && this.appSidebar && this.menuIcon && this.closeIcon) {
+      this.mobileToggle.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent click from immediately closing due to document listener
+        this.appSidebar.classList.toggle('active');
+        const isActive = this.appSidebar.classList.contains('active');
         
-        menuIcon.style.display = isActive ? 'none' : 'block';
-        closeIcon.style.display = isActive ? 'block' : 'none';
+        this.menuIcon.style.display = isActive ? 'none' : 'block';
+        this.closeIcon.style.display = isActive ? 'block' : 'none';
       });
     }
 
-    // Close mobile menu when clicking outside
+    // Close mobile sidebar when clicking outside
     document.addEventListener('click', (e) => {
-      if (navMenu && !navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
-        navMenu.classList.remove('active');
-        menuIcon.style.display = 'block';
-        closeIcon.style.display = 'none';
+      if (this.appSidebar && this.appSidebar.classList.contains('active')) {
+        // Check if the click is outside the sidebar AND not on the toggle button
+        const isClickInsideSidebar = this.appSidebar.contains(e.target);
+        const isClickOnToggle = this.mobileToggle ? this.mobileToggle.contains(e.target) : false;
+
+        if (!isClickInsideSidebar && !isClickOnToggle) {
+          this.appSidebar.classList.remove('active');
+          if (this.menuIcon) this.menuIcon.style.display = 'block';
+          if (this.closeIcon) this.closeIcon.style.display = 'none';
+        }
       }
     });
 
-    // Handle navigation links
+    // Handle navigation links (delegated to document for dynamically added content if any)
     document.addEventListener('click', (e) => {
       const navLink = e.target.closest('.nav-link');
       if (navLink) {
@@ -65,9 +85,14 @@ class NavigationManager {
         const selectedLanguage = e.target.value;
         localStorage.setItem('language', selectedLanguage);
         
-        // Translate page content
         if (window.translationManager) {
           await window.translationManager.translatePageContent(selectedLanguage);
+        }
+        // If sidebar is open on mobile, consider closing it after language change for better UX
+        if (this.appSidebar && this.appSidebar.classList.contains('active') && window.innerWidth <= 768) {
+            this.appSidebar.classList.remove('active');
+            if (this.menuIcon) this.menuIcon.style.display = 'block';
+            if (this.closeIcon) this.closeIcon.style.display = 'none';
         }
       });
     }
@@ -75,8 +100,8 @@ class NavigationManager {
 
   showPage(pageId) {
     // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-      page.classList.remove('active');
+    document.querySelectorAll('.page').forEach(pageEl => { // Renamed 'page' to 'pageEl' to avoid conflict
+      pageEl.classList.remove('active');
     });
 
     // Show target page
@@ -87,39 +112,53 @@ class NavigationManager {
       this.updateActiveLink();
     }
 
-    // Close mobile menu
-    const navMenu = document.getElementById('navMenu');
-    const menuIcon = document.getElementById('menuIcon');
-    const closeIcon = document.getElementById('closeIcon');
-    
-    if (navMenu) {
-      navMenu.classList.remove('active');
-      if (menuIcon) menuIcon.style.display = 'block';
-      if (closeIcon) closeIcon.style.display = 'none';
+    // Close mobile sidebar if it's open
+    if (this.appSidebar && this.appSidebar.classList.contains('active')) {
+      // Only close if on mobile view where sidebar is an overlay
+      if (window.innerWidth <= 768) { 
+        this.appSidebar.classList.remove('active');
+        if (this.menuIcon) this.menuIcon.style.display = 'block';
+        if (this.closeIcon) this.closeIcon.style.display = 'none';
+      }
     }
 
     // Update page-specific content
-    if (pageId === 'history') {
-      window.historyManager?.loadHistory();
+    if (pageId === 'history' && window.historyManager) {
+      window.historyManager.loadHistory();
     }
   }
 
   updateActiveLink() {
+    // Remove active class from all nav links
     document.querySelectorAll('.nav-link').forEach(link => {
       link.classList.remove('active');
     });
 
-    const activeLink = document.querySelector(`[data-page="${this.currentPage}"]`);
+    // Add active class to the current page's link
+    const activeLink = document.querySelector(`.nav-link[data-page="${this.currentPage}"]`);
     if (activeLink) {
       activeLink.classList.add('active');
     }
   }
 }
 
-// Global function for navigation (used in HTML onclick)
+// Global function for navigation (used in HTML onclick attributes)
 function showPage(pageId) {
-  window.navigationManager?.showPage(pageId);
+  // Ensure navigationManager is initialized
+  if (window.navigationManager) {
+    window.navigationManager.showPage(pageId);
+  } else {
+    // Fallback or error if manager not ready - though it should be.
+    console.warn('NavigationManager not ready for showPage global call.');
+  }
 }
 
 // Initialize navigation manager
+// Ensure this runs after the DOM is fully loaded if elements are accessed immediately.
+// If script is at the end of body, it's usually fine.
+// Or wrap in DOMContentLoaded:
+// document.addEventListener('DOMContentLoaded', () => {
+//   window.navigationManager = new NavigationManager();
+// });
+// For now, direct initialization assuming script placement at end of body or DOMContentLoaded in app.js
 window.navigationManager = new NavigationManager();
