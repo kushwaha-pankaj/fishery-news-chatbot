@@ -1,0 +1,604 @@
+/* css/components.css */
+
+/* Mobile Toggle Button (Used in .top-bar-header) */
+.mobile-toggle {
+  display: none; /* Default: hidden. Shown in .top-bar-header via media query */
+  background: none;
+  border: none;
+  padding: var(--spacing-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast); 
+}
+.mobile-toggle:hover {
+    color: var(--text-primary); 
+}
+
+/* === LAYOUT STYLES: Sidebar, Content Wrapper, Mobile Top Bar === */
+
+.app-sidebar {
+    width: 260px;
+    background-color: var(--bg-primary);
+    border-right: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+    position: fixed; 
+    left: 0;       
+    top: 0;        
+    z-index: 1100; 
+    transition: transform 0.3s ease-in-out;
+    flex-shrink: 0; 
+}
+
+.sidebar-header {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-primary);
+    flex-shrink: 0;
+}
+
+.sidebar-header .brand-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-lg); 
+    font-weight: 700;
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+
+.sidebar-header .brand-icon {
+    width: 28px; 
+    height: 28px;
+    color: var(--accent-orange);
+}
+
+.sidebar-nav {
+    flex-grow: 1; 
+    padding: var(--spacing-md);
+    overflow-y: auto;
+}
+
+.sidebar-nav .nav-link {
+    display: block; 
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-link.active {
+    color: var(--primary-blue);
+    background-color: rgb(65 82 244 / 0.1); 
+}
+
+.sidebar-nav .language-selector {
+    margin-top: var(--spacing-lg);
+    padding: 0 var(--spacing-md); 
+}
+.sidebar-nav .language-select {
+    width: 100%; 
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-primary); 
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.sidebar-nav .language-select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgb(65 82 244 / 0.1);
+}
+
+.sidebar-footer {
+    padding: var(--spacing-lg) var(--spacing-md);
+    border-top: 1px solid var(--border-primary);
+    margin-top: auto; 
+    flex-shrink: 0; 
+    background-color: var(--bg-primary); 
+}
+
+.sidebar-footer .footer-social {
+    display: flex;
+    justify-content: center; 
+    gap: var(--spacing-lg); 
+    margin-bottom: var(--spacing-md);
+}
+.sidebar-footer .social-link {
+    color: var(--text-secondary);
+    padding: var(--spacing-xs); 
+    text-decoration: none;
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+}
+.sidebar-footer .social-link:hover {
+    color: var(--primary-blue);
+}
+.sidebar-footer .social-link i { 
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-footer .footer-text {
+    text-align: center;
+    font-size: var(--font-size-xs); 
+    color: var(--text-secondary);
+}
+.sidebar-footer .footer-text p {
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.4;
+}
+
+.content-wrapper {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+    margin-left: 260px; 
+    transition: margin-left 0.3s ease-in-out;
+    background-color: var(--bg-secondary);
+    padding-right: 0; 
+    margin-right: 0;  
+    overflow: hidden; 
+}
+
+.top-bar-header { 
+    display: none; 
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 var(--spacing-md);
+    height: 64px; 
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-primary);
+    z-index: 1050;
+    flex-shrink: 0; 
+}
+
+.top-bar-header .mobile-brand-link {
+    display: none; 
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+ .top-bar-header .mobile-brand-link .brand-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--accent-orange);
+}
+
+/* Main Content Area (wrapper for pages inside content-wrapper) */
+.main-content {
+  flex: 1; /* Takes available vertical space in .content-wrapper */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* CRITICAL: Prevent .main-content itself from scrolling; children will handle scroll */
+  position: relative;
+}
+
+/* Styles for any page that is active */
+.page { /* Base styles for all pages, opacity/transform handled by theme.css */
+  display: none;
+  width: 100%; /* Ensure page takes full width of its container */
+}
+
+.page.active {
+  display: flex; /* Make the active page a flex container */
+  flex-direction: column; /* Align children (like .chat-container or .page-container) vertically */
+  flex: 1; /* Make the active page take all available space in .main-content */
+  opacity: 1; /* Managed by theme.css for transitions */
+  transform: translateY(0); /* Managed by theme.css for transitions */
+  overflow: hidden; /* The page itself shouldn't scroll, specific children will manage it */
+}
+
+
+/* Page Container (for History, Settings pages which have centered content) */
+.page-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+  width: 100%; 
+  overflow-y: auto; /* Allow .page-container to scroll if its content is too long */
+  flex: 1; /* Allows it to take space if .page.active is flex */
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  border-bottom: 1px solid var(--border-primary); 
+  padding-bottom: var(--spacing-md);
+}
+
+.page-icon {
+  width: 28px; 
+  height: 28px;
+  color: var(--primary-blue);
+  margin-right: var(--spacing-sm); 
+}
+.page-header h1 {
+    margin-bottom: 0; 
+}
+
+
+/* Chat Components */
+.chat-container { /* This is a direct child of #chatPage (which is a .page.active) */
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Make chat-container take all available space in its parent page (#chatPage) */
+  width: 100%;
+  background-color: var(--bg-secondary);
+  overflow: hidden; /* The container itself shouldn't scroll; .chat-messages will */
+}
+
+.chat-messages {
+  flex: 1 1 auto; /* Grow and shrink, auto basis. This is the scrollable message area. */
+  overflow-y: auto; 
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 1024px; 
+  margin: 0 auto; 
+  width: 100%;
+}
+
+.chat-bubble {
+  max-width: 75%; 
+  padding: var(--spacing-sm) var(--spacing-md); 
+  border-radius: var(--radius-lg); 
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  line-height: 1.5; 
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  background-color: var(--primary-blue);
+  color: white;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 var(--radius-lg); 
+  flex-direction: row-reverse; 
+}
+
+.chat-bubble.bot {
+  align-self: flex-start;
+  background-color: var(--accent-orange);
+  color: white;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 0; 
+}
+
+.chat-bubble.loading {
+  align-self: flex-start;
+  background-color: var(--accent-orange); 
+  color: white; 
+  padding: var(--spacing-md); 
+  border-radius: var(--radius-lg); 
+}
+
+.chat-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 2px; 
+}
+
+.chat-content {
+  flex: 1;
+}
+
+.message-text {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-xs);
+  word-wrap: break-word; 
+  white-space: pre-wrap; 
+}
+
+.message-time {
+  font-size: var(--font-size-xs);
+  opacity: 0.7; 
+  margin-top: var(--spacing-xs); 
+  display: block; 
+}
+.chat-bubble.user .message-time {
+    text-align: right;
+}
+
+.chat-input-container {
+  flex-shrink: 0; /* Important: Prevents this container from shrinking */
+  border-top: 1px solid var(--border-primary);
+  background-color: var(--bg-primary); 
+  padding: var(--spacing-md);
+  z-index: 10; /* Ensure it's above messages if any overlap could occur, e.g. with box shadows */
+}
+
+.chat-input-wrapper {
+  max-width: 1024px; 
+  margin: 0 auto; 
+  display: flex;
+  gap: var(--spacing-sm); 
+  align-items: center;
+  background-color: var(--bg-secondary); 
+  padding: var(--spacing-xs); 
+  border-radius: var(--radius-xl); 
+  border: 1px solid var(--border-primary);
+}
+.chat-input-wrapper:focus-within { 
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgb(65 82 244 / 0.1);
+}
+
+
+.chat-input {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md); 
+  border: none; 
+  border-radius: var(--radius-lg); 
+  background-color: transparent; 
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  resize: none;
+  outline: none;
+}
+
+.send-button {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg); 
+  padding: var(--spacing-sm); 
+  width: 38px; 
+  height: 38px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.send-button i { 
+    width: 20px;
+    height: 20px;
+}
+
+.send-button:hover:not(:disabled) {
+  background-color: #3b4df0; 
+  transform: scale(1.05); 
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* History Components */
+.history-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.history-item {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.history-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm); 
+  border-bottom: 1px dashed var(--border-secondary); 
+}
+
+.history-sender {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+.history-sender.user { color: var(--primary-blue); }
+.history-sender.bot { color: var(--accent-orange); }
+
+.history-time {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+}
+
+.history-message {
+  color: var(--text-primary);
+  line-height: 1.6; 
+  word-wrap: break-word;
+  white-space: pre-wrap; 
+  padding-top: var(--spacing-sm); 
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--text-tertiary);
+  background-color: var(--bg-primary); 
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-secondary);
+}
+.empty-state p {
+    margin-bottom: 0; 
+}
+
+
+/* Settings Components */
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.setting-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.setting-card h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-secondary); 
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  flex-wrap: wrap; 
+  padding: var(--spacing-sm) 0; 
+}
+.setting-item + .setting-item { 
+    border-top: 1px dashed var(--border-secondary);
+    margin-top: var(--spacing-sm);
+}
+
+
+.setting-label {
+  font-weight: 500;
+  color: var(--text-primary);
+  flex-shrink: 0; 
+}
+
+.setting-input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary); 
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  min-width: 200px; 
+  flex-grow: 1; 
+}
+
+.setting-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgb(65 82 244 / 0.1);
+}
+
+.setting-description {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-top: var(--spacing-sm);
+  line-height: 1.5;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--bg-tertiary); 
+  border-radius: var(--radius-sm);
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 768px) {
+  .app-sidebar {
+      transform: translateX(-100%); 
+  }
+  .app-sidebar.active {
+      transform: translateX(0);
+  }
+  .content-wrapper {
+      margin-left: 0; 
+  }
+  .top-bar-header {
+      display: flex; 
+  }
+  .top-bar-header .mobile-toggle {
+      display: block; 
+  }
+   .top-bar-header .mobile-brand-link {
+      display: flex;
+  }
+
+  .chat-bubble {
+    max-width: 85%; 
+  }
+
+  .page-container { /* For settings/history pages, ensure padding is consistent */
+    padding: var(--spacing-lg) var(--spacing-md); /* Adjusted for consistency */
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm); 
+  }
+
+  .setting-item {
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .setting-input {
+    width: 100%; 
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container { 
+    padding: var(--spacing-md) var(--spacing-sm); 
+  }
+  .chat-messages { 
+    padding: var(--spacing-sm); 
+    gap: var(--spacing-sm); 
+  }
+  .chat-input-container { 
+    padding: var(--spacing-sm); 
+  }
+  .sidebar-header .brand-text,
+  .top-bar-header .mobile-brand-link .brand-text {
+    font-size: var(--font-size-base); 
+  }
+  .chat-bubble {
+    max-width: 90%; 
+    padding: var(--spacing-xs) var(--spacing-sm); 
+  }
+  .setting-card h2 {
+    font-size: var(--font-size-base); 
+  }
+  .chat-input-wrapper {
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-lg); 
+  }
+  .send-button {
+    width: 36px;
+    height: 36px;
+  }
+  .send-button i {
+    width: 18px;
+    height: 18px;
+  }
+}
